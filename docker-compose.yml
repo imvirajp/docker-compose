@@ -1,15 +1,32 @@
 version: "3"
 services:
-  web:
+  web1:
     build: .
-    container_name: node_app_cont
+    container_name: node_app_cont1
     depends_on:
       - db
     ports:
       - "8000:8000"
     environment:
       - DATABASE_URL=postgres://postgres@db:5432/postgres
-
+  web2:
+    build: .
+    container_name: node_app_cont2
+    depends_on:
+      - db
+    ports:
+      - "8001:8000"
+    environment:
+      - DATABASE_URL=postgres://postgres@db:5432/postgres
+  web3:
+    build: .
+    container_name: node_app_cont3
+    depends_on:
+      - db
+    ports:
+      - "8002:8000"
+    environment:
+      - DATABASE_URL=postgres://postgres@db:5432/postgres
   db:
     image: postgres
     volumes:
