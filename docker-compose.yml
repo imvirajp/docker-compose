@@ -1,34 +1,36 @@
 version: "3"
 services:
+  proxy:
+    build: ./balancer-app
+    container_name: balancer_app_cont1
+    ports:
+      - "5000:5000"
+    environment:
+      - HOSTS=http://web1:8000,http://web2:8000,http://web3:8000
   web1:
-    build: .
+    build: ./numbers-app
     container_name: node_app_cont1
     depends_on:
       - db
-    ports:
-      - "8000:8000"
     environment:
       - DATABASE_URL=postgres://postgres@db:5432/postgres
   web2:
-    build: .
+    build: ./numbers-app
     container_name: node_app_cont2
     depends_on:
       - db
-    ports:
-      - "8001:8000"
     environment:
       - DATABASE_URL=postgres://postgres@db:5432/postgres
   web3:
-    build: .
+    build: ./numbers-app
     container_name: node_app_cont3
     depends_on:
       - db
-    ports:
-      - "8002:8000"
     environment:
       - DATABASE_URL=postgres://postgres@db:5432/postgres
   db:
     image: postgres
+    container_name: db_cont1
     volumes:
       - data_base:/var/lib/postgresql/data
 volumes:

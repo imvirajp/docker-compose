@@ -9,12 +9,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send(
-    `<form method="post" action="/postNum"><input type="text" name="number"><button type="submit">Submit</button></form>`
+    `<form method="post" action="/number"><input type="text" name="number"><button type="submit">Submit</button></form>`
   );
 });
 
-app.get("/allNumbers", (req, res) => {
-  client.query("SELECT numbers from numbers", null, (err, result) => {
+app.get("/numbers", (req, res) => {
+  client.query("SELECT numbers from numbers;", null, (err, result) => {
     if (err) {
       res.status(500);
       res.send(err.message);
@@ -24,10 +24,9 @@ app.get("/allNumbers", (req, res) => {
   });
 });
 
-app.post("/postNum", (req, res) => {
-  let number = req.body.number;
+app.post("/number", (req, res) => {
   client.query(
-    `insert into numbers values('${number}')`,
+    `INSERT INTO numbers(numbers) VALUES(${req.body.number});`,
     null,
     (err, number) => {
       if (err) {
@@ -51,7 +50,7 @@ client
           console.log(`Error occur while creating table ${err.message}`);
         } else {
           app.listen(PORT, () => {
-            console.log(`App listening on ${PORT}`);
+            console.log(`Numbers app listening on ${PORT}`);
           });
         }
       }
