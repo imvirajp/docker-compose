@@ -1,0 +1,18 @@
+version: "3"
+services:
+  web:
+    build: .
+    container_name: node_app_cont
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://postgres@db:5432/postgres
+
+  db:
+    image: postgres
+    volumes:
+      - data_base:/var/lib/postgresql/data
+volumes:
+  data_base:
